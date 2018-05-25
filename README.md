@@ -1,2 +1,2 @@
 # Twilio
-Twilio api for ColdFusion. This is being pulled out of a project I was working on, to be standalone. It will need a few iterations, but the SMS sending works ok (you'll need a Twilio aaccount).
+Twilio api for ColdFusion, to send SMS messages. You'll need a Twilio account, and origin number to make use of this code.
