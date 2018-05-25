@@ -13,7 +13,7 @@ component output="false" {
 		return this;
 	}
 
-	private struct function TwilioRequest(string requestType='', struct requestParams=StructNew(), string RequestMethod='')
+	private struct function twilioRequest(string requestType='', struct requestParams=StructNew(), string RequestMethod='')
 	{
 		var data 		= StructNew();
 		var returnData 	= StructNew();
@@ -76,7 +76,7 @@ component output="false" {
 		return returnData;
 	}
 
-	public struct function SendTwilioSMSMessage(string to='', string body='')
+	public struct function sendTwilioSMSMessage(string to='', string body='')
 	{
 		var data 		= StructNew();
 		var returnData 	= StructNew();
@@ -102,6 +102,29 @@ component output="false" {
 			returnData.processSuccess = True;
 		}
 		catch (any errorItem) 
+		{
+			errorLogging(returnData.errors, errorItem);
+		}
+
+		return returnData;
+	}
+
+	public struct function checkTwilioUsageStats()
+	{
+		var data 		= StructNew();
+		var returnData 	= StructNew();
+
+		try 
+		{
+			returnData.unparsedData = StructNew();
+			returnData.parsedData 	= StructNew();
+			returnData.errors 		= ArrayNew(1);
+
+			data.usageRequest 		= twilioRequest(RequestType="Usage", RequestParams=StructNew(), RequestMethod="Get");
+			returnData.unparsedData = Duplicate(data.usageRequest.twilio.fileContent); 
+			returnData.parsedData 	= DeserializeJSON(returnData.unparsedData);
+		}
+		catch (any errorItem)
 		{
 			errorLogging(returnData.errors, errorItem);
 		}
